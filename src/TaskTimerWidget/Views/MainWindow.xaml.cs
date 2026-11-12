@@ -757,6 +757,57 @@ namespace TaskTimerWidget
             }
         }
 
+        private async void TaskStart_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            if (sender is Button button && button.DataContext is TaskViewModel task && _viewModel != null)
+            {
+                await _viewModel.StartTaskAsync(task);
+                UpdateTaskItemColors();
+            }
+        }
+
+        private async void TaskPause_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            if (sender is Button button && button.DataContext is TaskViewModel task && _viewModel != null)
+            {
+                await _viewModel.PauseTaskAsync(task);
+                UpdateTaskItemColors();
+            }
+        }
+
+        private void TaskDetails_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            if (sender is Button button && button.DataContext is TaskViewModel task)
+                ShowTaskDetails(task);
+        }
+
+        private void ShowTaskDetails(TaskViewModel task)
+        {
+            TaskScrollView.Visibility = Visibility.Collapsed;
+            DetailPanel.Visibility = Visibility.Visible;
+            DetailTaskName.Text = task.Name;
+            DetailTotalTime.Text = $"Total: {task.FormattedTime}";
+            DetailHistoryPanel.Children.Clear();
+            foreach (var entry in (task.GetModel().History ?? new()).OrderByDescending(h => h.TimestampUtc))
+            {
+                DetailHistoryPanel.Children.Add(new TextBlock
+                {
+                    Text = $"{entry.TimestampUtc.ToLocalTime():yyyy-MM-dd HH:mm:ss}  {entry.Action}",
+                    Foreground = new SolidColorBrush(Colors.White),
+                    FontSize = 13
+                });
+            }
+        }
+
+        private void DetailBack_Click(object sender, RoutedEventArgs e)
+        {
+            DetailPanel.Visibility = Visibility.Collapsed;
+            TaskScrollView.Visibility = Visibility.Visible;
+        }
+
         /// <summary>
         /// Update background colors for all task items based on active state.
         /// </summary>
@@ -1540,3 +1591,4 @@ namespace TaskTimerWidget
 
     }
 }
+
