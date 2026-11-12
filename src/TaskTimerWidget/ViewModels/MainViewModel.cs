@@ -101,6 +101,19 @@ namespace TaskTimerWidget.ViewModels
                     Tasks.Add(viewModel);
                 }
 
+                var running = Tasks.Where(t => t.IsRunning).OrderByDescending(t => t.GetModel().ModifiedAt).FirstOrDefault();
+                foreach (var task in Tasks.Where(t => t != running && t.IsRunning))
+                {
+                    task.IsRunning = false;
+                    task.GetModel().RunningSinceUtc = null;
+                }
+                if (running != null)
+                {
+                    ActiveTask = running;
+                    SelectedTask = running;
+                    running.IsActive = true;
+                }
+
                 // Initial percentage update
                 UpdateTaskPercentages();
 
@@ -150,7 +163,7 @@ namespace TaskTimerWidget.ViewModels
         /// <summary>
         /// Selects a task and starts/pauses its timer appropriately.
         /// </summary>
-        private Task SelectTaskAsync(TaskViewModel taskVm)
+        private async Task SelectTaskAsync(TaskViewModel taskVm)
         {
             try
             {
@@ -160,14 +173,12 @@ namespace TaskTimerWidget.ViewModels
                     if (taskVm.IsRunning)
                     {
                         // Pause the task
-                        taskVm.IsRunning = false;
-                        taskVm.IsActive = false;
+                        await PauseTaskAsync(taskVm);
                     }
                     else
                     {
                         // Resume the task
-                        taskVm.IsRunning = true;
-                        taskVm.IsActive = true;
+                        await StartTaskAsync(taskVm);
                     }
                 }
                 else
@@ -176,26 +187,47 @@ namespace TaskTimerWidget.ViewModels
                     // Pause previous active task
                     if (ActiveTask != null)
                     {
-                        ActiveTask.IsRunning = false;
-                        ActiveTask.IsActive = false;
+                        await PauseTaskAsync(ActiveTask);
                     }
 
                     // Set new active task
                     SelectedTask = taskVm;
                     ActiveTask = taskVm;
-                    ActiveTask.IsActive = true;
-                    ActiveTask.IsRunning = true;
+                    await StartTaskAsync(ActiveTask);
                 }
 
                 Log.Debug($"Task selected: {taskVm.Name}");
-                return Task.CompletedTask;
+                return;
             }
             catch (Exception ex)
             {
                 ErrorMessage = "Failed to select task";
                 Log.Error(ex, "Error selecting task");
-                return Task.CompletedTask;
+                return;
             }
+        }
+
+        public async Task StartTaskAsync(TaskViewModel taskVm)
+        {
+            foreach (var task in Tasks.Where(t => t != taskVm && t.IsRunning).ToList())
+            {
+                await _taskService.PauseTaskAsync(task.Id);
+                task.IsRunning = false;
+                task.IsActive = false;
+            }
+            await _taskService.StartTaskAsync(taskVm.Id);
+            taskVm.IsRunning = true;
+            taskVm.IsActive = true;
+            ActiveTask = taskVm;
+            SelectedTask = taskVm;
+        }
+
+        public async Task PauseTaskAsync(TaskViewModel taskVm)
+        {
+            await _taskService.PauseTaskAsync(taskVm.Id);
+            taskVm.IsRunning = false;
+            taskVm.IsActive = false;
+            if (ActiveTask == taskVm) ActiveTask = null;
         }
 
         /// <summary>
@@ -233,10 +265,12 @@ namespace TaskTimerWidget.ViewModels
         {
             if (ActiveTask?.IsRunning == true)
             {
-                var currentElapsed = ActiveTask.ElapsedSeconds + 1;
+                var now = DateTime.UtcNow;
+                var since = ActiveTask.GetModel().RunningSinceUtc ?? now;
+                var currentElapsed = ActiveTask.GetModel().ElapsedSeconds + Math.Max(0, (long)(now - since).TotalSeconds);
                 ActiveTask.UpdateElapsedDisplay(currentElapsed);
-
-                // Save the updated model to storage
+                ActiveTask.GetModel().ElapsedSeconds = currentElapsed;
+                ActiveTask.GetModel().RunningSinceUtc = now;
                 _ = _taskService.UpdateTaskAsync(ActiveTask.GetModel());
             }
 
@@ -306,3 +340,4 @@ namespace TaskTimerWidget.ViewModels
         }
     }
 }
+
