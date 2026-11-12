@@ -147,6 +147,9 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
@@ -162,6 +165,30 @@
 
                                         <Button
                                             Grid.Column="1"
+                                            Content="Details"
+                                            Width="52"
+                                            Height="28"
+                                            Padding="2"
+                                            Click="TaskDetails_Click" />
+
+                                        <Button
+                                            Grid.Column="2"
+                                            Content="Start"
+                                            Width="48"
+                                            Height="28"
+                                            Padding="2"
+                                            Click="TaskStart_Click" />
+
+                                        <Button
+                                            Grid.Column="3"
+                                            Content="Pause"
+                                            Width="48"
+                                            Height="28"
+                                            Padding="2"
+                                            Click="TaskPause_Click" />
+
+                                        <Button
+                                            Grid.Column="4"
                                             Content="✕"
                                             Width="28"
                                             Height="28"
@@ -291,6 +318,18 @@
                 </Border>
             </StackPanel>
         </ScrollView>
+
+            <Border x:Name="DetailPanel" Visibility="Collapsed" Background="#2A2A2A" Padding="12">
+                <StackPanel Spacing="10">
+                    <Button Content="← Back" Click="DetailBack_Click" HorizontalAlignment="Left" />
+                    <TextBlock x:Name="DetailTaskName" FontSize="20" Foreground="White" />
+                    <TextBlock x:Name="DetailTotalTime" FontSize="16" Foreground="#FFD700" />
+                    <TextBlock Text="Start / Pause history" FontSize="14" Foreground="White" />
+                    <ScrollView MaxHeight="340">
+                        <StackPanel x:Name="DetailHistoryPanel" Spacing="4" />
+                    </ScrollView>
+                </StackPanel>
+            </Border>
         </Grid>
 
         <!-- Bottom Controls -->
@@ -406,3 +445,4 @@
         </StackPanel>
     </Grid>
 </Window>
+
