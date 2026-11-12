@@ -89,6 +89,9 @@ namespace TaskTimerWidget.Services
                     existingTask.Name = task.Name;
                     existingTask.ElapsedSeconds = task.ElapsedSeconds;
                     existingTask.IsRunning = task.IsRunning;
+                    existingTask.RunningSinceUtc = task.RunningSinceUtc;
+                    existingTask.History = task.History ?? new List<TaskTimerEvent>();
+                    existingTask.Order = task.Order;
                     existingTask.ModifiedAt = DateTime.UtcNow;
                 }
             }
@@ -114,24 +117,47 @@ namespace TaskTimerWidget.Services
 
         public async System.Threading.Tasks.Task StartTaskAsync(Guid id)
         {
-            var task = await GetTaskAsync(id);
-            if (task != null && !task.IsRunning)
+            var now = DateTime.UtcNow;
+            TaskItem? task;
+            lock (_lockObject)
             {
-                task.IsRunning = true;
-                await UpdateTaskAsync(task);
-                Log.Debug($"Task started: {id}");
+                task = _tasks.FirstOrDefault(t => t.Id == id);
+                if (task == null) return;
+                foreach (var other in _tasks.Where(t => t.IsRunning && t.Id != id))
+                {
+                    FinalizeRunningTask(other, now, "Pause");
+                }
+                if (!task.IsRunning)
+                {
+                    task.IsRunning = true;
+                    task.RunningSinceUtc = now;
+                    task.History ??= new List<TaskTimerEvent>();
+                    task.History.Add(new TaskTimerEvent { Action = "Start", TimestampUtc = now });
+                }
             }
+            await _storageService.SaveTasksAsync(_tasks);
         }
 
         public async System.Threading.Tasks.Task PauseTaskAsync(Guid id)
         {
-            var task = await GetTaskAsync(id);
+            TaskItem? task;
+            lock (_lockObject) task = _tasks.FirstOrDefault(t => t.Id == id);
             if (task != null && task.IsRunning)
             {
-                task.IsRunning = false;
-                await UpdateTaskAsync(task);
-                Log.Debug($"Task paused: {id}");
+                lock (_lockObject) FinalizeRunningTask(task, DateTime.UtcNow, "Pause");
+                await _storageService.SaveTasksAsync(_tasks);
             }
+        }
+
+        private static void FinalizeRunningTask(TaskItem task, DateTime now, string action)
+        {
+            if (task.RunningSinceUtc.HasValue)
+                task.ElapsedSeconds += Math.Max(0, (long)(now - task.RunningSinceUtc.Value).TotalSeconds);
+            task.IsRunning = false;
+            task.RunningSinceUtc = null;
+            task.History ??= new List<TaskTimerEvent>();
+            task.History.Add(new TaskTimerEvent { Action = action, TimestampUtc = now });
+            task.ModifiedAt = now;
         }
 
         public async System.Threading.Tasks.Task AddElapsedTimeAsync(Guid id, long seconds)
@@ -156,3 +182,4 @@ namespace TaskTimerWidget.Services
         }
     }
 }
+
