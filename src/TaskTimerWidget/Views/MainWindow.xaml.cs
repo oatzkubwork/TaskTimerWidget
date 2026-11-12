@@ -759,7 +759,6 @@ namespace TaskTimerWidget
 
         private async void TaskStart_Click(object sender, RoutedEventArgs e)
         {
-            e.Handled = true;
             if (sender is Button button && button.DataContext is TaskViewModel task && _viewModel != null)
             {
                 await _viewModel.StartTaskAsync(task);
@@ -769,7 +768,6 @@ namespace TaskTimerWidget
 
         private async void TaskPause_Click(object sender, RoutedEventArgs e)
         {
-            e.Handled = true;
             if (sender is Button button && button.DataContext is TaskViewModel task && _viewModel != null)
             {
                 await _viewModel.PauseTaskAsync(task);
@@ -779,7 +777,6 @@ namespace TaskTimerWidget
 
         private void TaskDetails_Click(object sender, RoutedEventArgs e)
         {
-            e.Handled = true;
             if (sender is Button button && button.DataContext is TaskViewModel task)
                 ShowTaskDetails(task);
         }
