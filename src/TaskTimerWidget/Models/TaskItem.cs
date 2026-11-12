@@ -31,6 +31,12 @@ namespace TaskTimerWidget.Models
         [JsonProperty("isRunning")]
         public bool IsRunning { get; set; }
 
+        [JsonProperty("runningSinceUtc")]
+        public DateTime? RunningSinceUtc { get; set; }
+
+        [JsonProperty("history")]
+        public List<TaskTimerEvent> History { get; set; } = new();
+
         /// <summary>
         /// Task creation timestamp.
         /// </summary>
@@ -75,6 +81,7 @@ namespace TaskTimerWidget.Models
         {
             ElapsedSeconds = 0;
             IsRunning = false;
+            RunningSinceUtc = null;
             ModifiedAt = DateTime.UtcNow;
         }
 
@@ -122,4 +129,14 @@ namespace TaskTimerWidget.Models
             return Id.GetHashCode();
         }
     }
+
+    public class TaskTimerEvent
+    {
+        [JsonProperty("action")]
+        public string Action { get; set; } = string.Empty;
+
+        [JsonProperty("timestampUtc")]
+        public DateTime TimestampUtc { get; set; }
+    }
 }
+
