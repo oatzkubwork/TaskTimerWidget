@@ -7,7 +7,7 @@
     Closed="Window_Closed"
     Activated="Window_Activated">
 
-    <Grid RowSpacing="0" Background="#D0D0D0" x:Name="MainGrid"
+    <Grid RowSpacing="0" Background="#252525" x:Name="MainGrid"
           PointerEntered="MainGrid_PointerEntered"
           PointerExited="MainGrid_PointerExited"
           Tapped="MainGrid_Tapped">
@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Bar (Sticky Notes Style) - Draggable via SetTitleBar -->
-        <Grid Grid.Row="0" Height="32" Padding="12,4,4,4" Background="#B8B8B8" x:Name="TitleBarGrid" Opacity="0" IsHitTestVisible="False">
+        <Grid Grid.Row="0" Height="32" Padding="12,4,4,4" Background="#252525" x:Name="TitleBarGrid" Opacity="0" IsHitTestVisible="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -126,7 +126,7 @@
                                 CornerRadius="6"
                                 BorderThickness="1"
                                 BorderBrush="#1A1A1A"
-                                Background="#2A2A2A"
+                                Background="#2D2D2D"
                                 PointerEntered="TaskItem_PointerEntered"
                                 PointerExited="TaskItem_PointerExited"
                                 Tapped="TaskItem_Tapped"
@@ -197,7 +197,7 @@
                                             Text="{Binding TimePercentage}"
                                             FontSize="12"
                                             FontWeight="Normal"
-                                            Foreground="#999999"
+                                            Foreground="#AFAFAF"
                                             VerticalAlignment="Bottom" />
 
                                         <Button
@@ -223,7 +223,7 @@
                     CornerRadius="6"
                     BorderThickness="1"
                     BorderBrush="#1A1A1A"
-                    Background="#2A2A2A"
+                    Background="#2D2D2D"
                     Visibility="Collapsed">
                     <Grid RowSpacing="8">
                         <Grid.RowDefinitions>
@@ -239,7 +239,7 @@
                             FontSize="16"
                             FontWeight="Bold"
                             Foreground="White"
-                            Background="#2A2A2A"
+                            Background="#2D2D2D"
                             BorderThickness="0"
                             Padding="12,8,0,8"
                             KeyDown="NewTaskTextBox_KeyDown"
@@ -258,7 +258,7 @@
                     CornerRadius="6"
                     BorderThickness="1"
                     BorderBrush="#1A1A1A"
-                    Background="#2A2A2A"
+                    Background="#2D2D2D"
                     Visibility="Collapsed"
                     Tapped="ChangeTimeBorder_Tapped"
                     RightTapped="ChangeTimeBorder_RightTapped">
@@ -303,7 +303,7 @@
             </StackPanel>
         </ScrollView>
 
-            <Border x:Name="DetailPanel" Visibility="Collapsed" Background="#2A2A2A" Padding="12">
+            <Border x:Name="DetailPanel" Visibility="Collapsed" Background="#252525" Padding="12">
                 <StackPanel Spacing="10">
                     <Button Content="← Back" Click="DetailBack_Click" HorizontalAlignment="Left" />
                     <TextBlock x:Name="DetailTaskName" FontSize="20" Foreground="White" />
@@ -362,7 +362,7 @@
                     Width="40"
                     Height="40"
                     FontSize="20"
-                    Background="#3A3A3A"
+                    Background="#D9B8B2"
                     Foreground="White"
                     CornerRadius="4"
                     Click="AddTaskButton_Click" />
@@ -400,7 +400,7 @@
             <TextBlock
                 x:Name="StatusBar"
                 FontSize="11"
-                Foreground="#999999"
+                Foreground="#AFAFAF"
                 TextAlignment="Center" />
         </StackPanel>
 
