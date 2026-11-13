@@ -8,6 +8,7 @@
     Activated="Window_Activated">
 
     <Grid RowSpacing="0" Background="#303030" x:Name="MainGrid"
+          Loaded="MainGrid_Loaded"
           PointerEntered="MainGrid_PointerEntered"
           PointerExited="MainGrid_PointerExited"
           Tapped="MainGrid_Tapped">
@@ -377,7 +378,7 @@
                     VerticalAlignment="Center"
                     Margin="0,0,8,0">
                     <Button
-                        x:Name="AboutButton"
+                        x:Name="ThemeToggleButton"
                         Width="32"
                         Height="32"
                         Padding="0"
@@ -385,9 +386,11 @@
                         Foreground="White"
                         BorderThickness="0"
                         CornerRadius="16"
-                        Click="AboutButton_Click">
+                        Click="ThemeToggleButton_Click"
+                        AutomationProperties.Name="Switch theme">
                         <TextBlock
-                            Text="i"
+                            x:Name="ThemeToggleIcon"
+                            Text="☾"
                             FontSize="16"
                             FontWeight="Bold"
                             Foreground="White"
