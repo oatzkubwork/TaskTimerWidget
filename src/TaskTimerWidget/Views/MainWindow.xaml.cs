@@ -86,7 +86,28 @@ namespace TaskTimerWidget
                     VisualTreeHelper.GetChild(container, 0) is Border border && item is TaskViewModel task)
                 {
                     border.Background = new SolidColorBrush(task.IsActive ? _themeActiveColor : _themeCardColor);
+                    var textColor = task.IsActive ? Colors.White : onSurface;
+                    var secondaryColor = _isDarkTheme ? new Color { A = 255, R = 0xD5, G = 0xC2, B = 0xBA } : new Color { A = 255, R = 0x6F, G = 0x5A, B = 0x52 };
+                    foreach (var textBlock in FindDescendants<TextBlock>(container))
+                    {
+                        textBlock.Foreground = new SolidColorBrush(textBlock.Text?.EndsWith("%") == true ? secondaryColor : textColor);
+                    }
+                    foreach (var button in FindDescendants<Button>(container))
+                    {
+                        if (button.Content?.ToString() == "Details") button.Foreground = new SolidColorBrush(onSurface);
+                    }
                 }
+            }
+        }
+
+        private static IEnumerable<T> FindDescendants<T>(DependencyObject root) where T : DependencyObject
+        {
+            var count = VisualTreeHelper.GetChildrenCount(root);
+            for (var i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                if (child is T match) yield return match;
+                foreach (var descendant in FindDescendants<T>(child)) yield return descendant;
             }
         }
 
