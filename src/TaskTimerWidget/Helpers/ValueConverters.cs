@@ -30,13 +30,17 @@ namespace TaskTimerWidget.Helpers
     /// </summary>
     public class RunningTextColorConverter : IValueConverter
     {
+        public static bool IsDarkTheme { get; set; }
+
         public object? Convert(object? value, Type targetType, object? parameter, string language)
         {
             if (value is bool isActive && isActive)
             {
                 return new SolidColorBrush(Microsoft.UI.Colors.White);
             }
-            return new SolidColorBrush(new Color { A = 255, R = 0xD0, G = 0xD0, B = 0xD0 });
+            return new SolidColorBrush(IsDarkTheme
+                ? new Color { A = 255, R = 0xD5, G = 0xC2, B = 0xBA }
+                : new Color { A = 255, R = 0x2B, G = 0x22, B = 0x1F });
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, string language)
