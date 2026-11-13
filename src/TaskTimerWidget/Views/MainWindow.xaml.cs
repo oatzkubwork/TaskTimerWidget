@@ -31,6 +31,8 @@ namespace TaskTimerWidget
         private const int NORMAL_HEIGHT = 510;
         private const int TITLEBAR_HEIGHT = 32;
         private bool _isDarkTheme;
+        private Color _themeCardColor;
+        private Color _themeActiveColor;
 
         public MainWindow()
         {
@@ -60,6 +62,8 @@ namespace TaskTimerWidget
             var secondary = _isDarkTheme ? new Color { A = 255, R = 0xD5, G = 0xC2, B = 0xBA } : new Color { A = 255, R = 0x6F, G = 0x5A, B = 0x52 };
             var primary = _isDarkTheme ? new Color { A = 255, R = 0xFF, G = 0xB7, B = 0x7A } : new Color { A = 255, R = 0x8B, G = 0x4A, B = 0x00 };
             var primaryContainer = _isDarkTheme ? new Color { A = 255, R = 0x72, G = 0x38, B = 0x00 } : new Color { A = 255, R = 0xFF, G = 0xDB, B = 0xBF };
+            _themeCardColor = card;
+            _themeActiveColor = primaryContainer;
 
             MainGrid.RequestedTheme = _isDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
             MainGrid.Background = new SolidColorBrush(surface);
@@ -70,7 +74,7 @@ namespace TaskTimerWidget
             HelpButton.Background = new SolidColorBrush(card);
             HelpButton.Foreground = new SolidColorBrush(onSurface);
             ThemeToggleButton.Background = new SolidColorBrush(card);
-            ThemeToggleButton.Foreground = new SolidColorBrush(onSurface);
+            ThemeToggleButton.Foreground = new SolidColorBrush(Colors.White);
             ThemeToggleIcon.Text = _isDarkTheme ? "☀" : "☾";
             ThemeToggleButton.SetValue(AutomationProperties.NameProperty, _isDarkTheme ? "Switch to light theme" : "Switch to dark theme");
             StatusBar.Foreground = new SolidColorBrush(secondary);
@@ -79,7 +83,7 @@ namespace TaskTimerWidget
                 if (TasksItemsControl.ContainerFromItem(item) is FrameworkElement container &&
                     VisualTreeHelper.GetChild(container, 0) is Border border && item is TaskViewModel task)
                 {
-                    border.Background = new SolidColorBrush(task.IsActive ? primaryContainer : card);
+                    border.Background = new SolidColorBrush(task.IsActive ? _themeActiveColor : _themeCardColor);
                 }
             }
         }
@@ -874,7 +878,7 @@ namespace TaskTimerWidget
                     if (visual?.Tag is TaskViewModel taskVm)
                     {
                         // Active (running) = Gold, Inactive (paused) = Dark Gray (#2A2A2A)
-                        var color = taskVm.IsActive ? new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A } : new Color { A = 255, R = 0x25, G = 0x25, B = 0x25 };
+                        var color = taskVm.IsActive ? _themeActiveColor : _themeCardColor;
                         visual.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(color);
                     }
                 }
@@ -1032,7 +1036,7 @@ namespace TaskTimerWidget
 
             // Set card background based on active state (same as task card)
             ChangeTimeBorder.Background = new SolidColorBrush(
-                taskVm.IsActive ? new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A } : new Color { A = 255, R = 0x25, G = 0x25, B = 0x25 });
+                taskVm.IsActive ? _themeActiveColor : _themeCardColor);
 
             // Build adjustment buttons
             BuildChangeTimeButtons(taskVm);
@@ -1188,7 +1192,7 @@ namespace TaskTimerWidget
                     var border = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChild(container, 0) as Border;
                     if (border?.Tag == taskVm)
                     {
-                        border.Background = new SolidColorBrush(new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A });
+                        border.Background = new SolidColorBrush(_themeActiveColor);
                         break;
                     }
                 }
