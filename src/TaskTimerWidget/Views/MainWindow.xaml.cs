@@ -392,8 +392,7 @@ namespace TaskTimerWidget
             });
 
             // Version & date
-            var version = Windows.ApplicationModel.Package.Current.Id.Version;
-            var versionStr = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+            var versionStr = typeof(MainWindow).Assembly.GetName().Version?.ToString(3) ?? "1.1.0";
             panel.Children.Add(CreateAboutLine($"Version {versionStr}"));
             panel.Children.Add(CreateAboutLine("2025"));
 
