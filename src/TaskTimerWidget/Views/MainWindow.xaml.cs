@@ -27,7 +27,7 @@ namespace TaskTimerWidget
         private bool _isMouseOver = false;
         private bool _isWindowActive = false;
         private bool _isTitleBarTransitioning = false;
-        private const int NORMAL_HEIGHT = 500;
+        private const int NORMAL_HEIGHT = 489;
         private const int TITLEBAR_HEIGHT = 32;
 
         public MainWindow()
@@ -49,7 +49,7 @@ namespace TaskTimerWidget
                 if (_appWindow != null)
                 {
                     // Set window size for widget appearance
-                    _appWindow.Resize(new SizeInt32(220, 500));
+                    _appWindow.Resize(new SizeInt32(225, 489));
                     Log.Information("MainWindow resized to 220x500");
 
                     // Set window to always-on-top (widget behavior)
@@ -601,7 +601,7 @@ namespace TaskTimerWidget
                     $"TaskMargin: {taskMargin}, Calculated: {compactHeight}");
 
                 // Switch to compact mode with calculated height
-                _appWindow?.Resize(new SizeInt32(220, compactHeight));
+                _appWindow?.Resize(new SizeInt32(225, compactHeight));
 
                 CompactModeButton.Content = "◱";
                 Log.Information($"Switched to compact mode (height: {compactHeight}px)");
@@ -619,7 +619,7 @@ namespace TaskTimerWidget
                 }
 
                 // Switch back to normal mode
-                _appWindow?.Resize(new SizeInt32(220, NORMAL_HEIGHT));
+                _appWindow?.Resize(new SizeInt32(225, NORMAL_HEIGHT));
 
                 // Restore normal padding and alignment
                 if (TaskScrollView != null)
@@ -828,7 +828,7 @@ namespace TaskTimerWidget
                     if (visual?.Tag is TaskViewModel taskVm)
                     {
                         // Active (running) = Gold, Inactive (paused) = Dark Gray (#2A2A2A)
-                        var color = taskVm.IsActive ? Microsoft.UI.Colors.Gold : new Color { A = 255, R = 0x2A, G = 0x2A, B = 0x2A };
+                        var color = taskVm.IsActive ? new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A } : new Color { A = 255, R = 0x25, G = 0x25, B = 0x25 };
                         visual.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(color);
                     }
                 }
@@ -847,7 +847,7 @@ namespace TaskTimerWidget
                 if (taskVm.IsActive)
                 {
                     // Lighter gold for active tasks (#FFD700 -> lighter)
-                    hoverColor = new Color { A = 255, R = 0xFF, G = 0xE0, B = 0x50 };
+                    hoverColor = new Color { A = 255, R = 0xCC, G = 0x79, B = 0x3B };
                 }
                 else
                 {
@@ -866,7 +866,7 @@ namespace TaskTimerWidget
             if (sender is Border border && border.Tag is TaskViewModel taskVm)
             {
                 // Restore: Active = Gold, Inactive = Dark Gray (#2A2A2A)
-                var color = taskVm.IsActive ? Microsoft.UI.Colors.Gold : new Color { A = 255, R = 0x2A, G = 0x2A, B = 0x2A };
+                var color = taskVm.IsActive ? new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A } : new Color { A = 255, R = 0x25, G = 0x25, B = 0x25 };
                 border.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(color);
             }
         }
@@ -1006,7 +1006,7 @@ namespace TaskTimerWidget
 
             // Set card background based on active state (same as task card)
             ChangeTimeBorder.Background = new SolidColorBrush(
-                taskVm.IsActive ? Microsoft.UI.Colors.Gold : new Color { A = 255, R = 0x2A, G = 0x2A, B = 0x2A });
+                taskVm.IsActive ? new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A } : new Color { A = 255, R = 0x25, G = 0x25, B = 0x25 });
 
             // Build adjustment buttons
             BuildChangeTimeButtons(taskVm);
@@ -1162,7 +1162,7 @@ namespace TaskTimerWidget
                     var border = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChild(container, 0) as Border;
                     if (border?.Tag == taskVm)
                     {
-                        border.Background = new SolidColorBrush(Microsoft.UI.Colors.Gold);
+                        border.Background = new SolidColorBrush(new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A });
                         break;
                     }
                 }
@@ -1306,7 +1306,7 @@ namespace TaskTimerWidget
                                 var border = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChild(container, 0) as Border;
                                 if (border?.Tag == existingTask)
                                 {
-                                    border.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Gold);
+                                    border.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A });
                                     break;
                                 }
                             }
