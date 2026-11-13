@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 using Windows.Graphics;
 using Windows.UI;
 using TaskTimerWidget.ViewModels;
+using TaskTimerWidget.Helpers;
 using Serilog;
 using System.Linq;
 using Microsoft.UI.Xaml.Media;
@@ -66,6 +67,7 @@ namespace TaskTimerWidget
             _themeActiveColor = primaryContainer;
 
             MainGrid.RequestedTheme = _isDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
+            RunningTextColorConverter.IsDarkTheme = _isDarkTheme;
             MainGrid.Background = new SolidColorBrush(surface);
             TitleBarGrid.Background = new SolidColorBrush(surface);
             DetailPanel.Background = new SolidColorBrush(surface);
