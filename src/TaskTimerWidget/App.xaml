@@ -13,6 +13,14 @@
 
             <!-- Value Converters -->
             <helpers:RunningTextColorConverter x:Key="RunningTextColorConverter" />
+
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="ms-appx:///Assets/Fonts/Roboto-Regular.ttf#Roboto" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="ms-appx:///Assets/Fonts/Roboto-Medium.ttf#Roboto" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
+
