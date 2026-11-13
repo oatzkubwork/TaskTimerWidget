@@ -148,8 +148,6 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
@@ -165,30 +163,6 @@
 
                                         <Button
                                             Grid.Column="1"
-                                            Content="Details"
-                                            Width="52"
-                                            Height="28"
-                                            Padding="2"
-                                            Click="TaskDetails_Click" />
-
-                                        <Button
-                                            Grid.Column="2"
-                                            Content="Start"
-                                            Width="48"
-                                            Height="28"
-                                            Padding="2"
-                                            Click="TaskStart_Click" />
-
-                                        <Button
-                                            Grid.Column="3"
-                                            Content="Pause"
-                                            Width="48"
-                                            Height="28"
-                                            Padding="2"
-                                            Click="TaskPause_Click" />
-
-                                        <Button
-                                            Grid.Column="4"
                                             Content="✕"
                                             Width="28"
                                             Height="28"
@@ -204,6 +178,7 @@
                                     <Grid Grid.Row="1" ColumnSpacing="8">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
@@ -224,6 +199,15 @@
                                             FontWeight="Normal"
                                             Foreground="#999999"
                                             VerticalAlignment="Bottom" />
+
+                                        <Button
+                                            Grid.Column="2"
+                                            Content="Details"
+                                            Width="58"
+                                            Height="24"
+                                            Padding="2"
+                                            Tapped="TaskDetails_Tapped"
+                                            Margin="8,0,0,0" />
                                     </Grid>
                                 </Grid>
                             </Border>
