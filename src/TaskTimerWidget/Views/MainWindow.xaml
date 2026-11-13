@@ -7,7 +7,7 @@
     Closed="Window_Closed"
     Activated="Window_Activated">
 
-    <Grid RowSpacing="0" Background="#252525" x:Name="MainGrid"
+    <Grid RowSpacing="0" Background="#303030" x:Name="MainGrid"
           PointerEntered="MainGrid_PointerEntered"
           PointerExited="MainGrid_PointerExited"
           Tapped="MainGrid_Tapped">
@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Bar (Sticky Notes Style) - Draggable via SetTitleBar -->
-        <Grid Grid.Row="0" Height="32" Padding="12,4,4,4" Background="#252525" x:Name="TitleBarGrid" Opacity="0" IsHitTestVisible="False">
+        <Grid Grid.Row="0" Height="32" Padding="12,4,4,4" Background="#303030" x:Name="TitleBarGrid" Opacity="0" IsHitTestVisible="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -126,7 +126,7 @@
                                 CornerRadius="6"
                                 BorderThickness="1"
                                 BorderBrush="#1A1A1A"
-                                Background="#2D2D2D"
+                                Background="#252525"
                                 PointerEntered="TaskItem_PointerEntered"
                                 PointerExited="TaskItem_PointerExited"
                                 Tapped="TaskItem_Tapped"
@@ -153,7 +153,7 @@
                                         <TextBlock
                                             Grid.Column="0"
                                             Text="{Binding Name}"
-                                            FontSize="16"
+                                            FontSize="15"
                                             FontWeight="Normal"
                                             Foreground="{Binding IsActive, Converter={StaticResource RunningTextColorConverter}}"
                                             TextWrapping="Wrap"
@@ -186,7 +186,7 @@
                                         <TextBlock
                                             Grid.Column="0"
                                             Text="{Binding FormattedTime}"
-                                            FontSize="18"
+                                            FontSize="17"
                                             FontWeight="Normal"
                                             Foreground="{Binding IsActive, Converter={StaticResource RunningTextColorConverter}}"
                                             FontFamily="ms-appx:///Assets/Fonts/TrebuchetMS.ttf#Trebuchet MS" />
@@ -195,7 +195,7 @@
                                         <TextBlock
                                             Grid.Column="1"
                                             Text="{Binding TimePercentage}"
-                                            FontSize="12"
+                            FontSize="12"
                                             FontWeight="Normal"
                                             Foreground="#AFAFAF"
                                             VerticalAlignment="Bottom" />
@@ -223,7 +223,7 @@
                     CornerRadius="6"
                     BorderThickness="1"
                     BorderBrush="#1A1A1A"
-                    Background="#2D2D2D"
+                    Background="#252525"
                     Visibility="Collapsed">
                     <Grid RowSpacing="8">
                         <Grid.RowDefinitions>
@@ -239,7 +239,7 @@
                             FontSize="16"
                             FontWeight="Bold"
                             Foreground="White"
-                            Background="#2D2D2D"
+                            Background="#252525"
                             BorderThickness="0"
                             Padding="12,8,0,8"
                             KeyDown="NewTaskTextBox_KeyDown"
@@ -258,7 +258,7 @@
                     CornerRadius="6"
                     BorderThickness="1"
                     BorderBrush="#1A1A1A"
-                    Background="#2D2D2D"
+                    Background="#252525"
                     Visibility="Collapsed"
                     Tapped="ChangeTimeBorder_Tapped"
                     RightTapped="ChangeTimeBorder_RightTapped">
@@ -303,7 +303,7 @@
             </StackPanel>
         </ScrollView>
 
-            <Border x:Name="DetailPanel" Visibility="Collapsed" Background="#252525" Padding="12">
+            <Border x:Name="DetailPanel" Visibility="Collapsed" Background="#303030" Padding="12">
                 <StackPanel Spacing="10">
                     <Button Content="← Back" Click="DetailBack_Click" HorizontalAlignment="Left" />
                     <TextBlock x:Name="DetailTaskName" FontSize="20" Foreground="White" />
