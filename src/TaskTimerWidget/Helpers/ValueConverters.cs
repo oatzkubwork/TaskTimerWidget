@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
+using Windows.UI;
 
 namespace TaskTimerWidget.Helpers
 {
@@ -13,7 +14,7 @@ namespace TaskTimerWidget.Helpers
         {
             if (value is bool isActive && isActive)
             {
-                return new SolidColorBrush(Microsoft.UI.Colors.Gold);
+                return new SolidColorBrush(new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A });
             }
             return new SolidColorBrush(Microsoft.UI.Colors.LightGray);
         }
@@ -33,9 +34,9 @@ namespace TaskTimerWidget.Helpers
         {
             if (value is bool isActive && isActive)
             {
-                return new SolidColorBrush(Microsoft.UI.Colors.Black);
+                return new SolidColorBrush(Microsoft.UI.Colors.White);
             }
-            return new SolidColorBrush(Microsoft.UI.Colors.White);
+            return new SolidColorBrush(new Color { A = 255, R = 0xD0, G = 0xD0, B = 0xD0 });
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, string language)
@@ -168,3 +169,4 @@ namespace TaskTimerWidget.Helpers
     }
 
 }
+
