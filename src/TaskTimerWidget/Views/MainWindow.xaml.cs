@@ -8,6 +8,7 @@ using TaskTimerWidget.ViewModels;
 using Serilog;
 using System.Linq;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Automation;
 
 namespace TaskTimerWidget
 {
@@ -29,6 +30,7 @@ namespace TaskTimerWidget
         private bool _isTitleBarTransitioning = false;
         private const int NORMAL_HEIGHT = 489;
         private const int TITLEBAR_HEIGHT = 32;
+        private bool _isDarkTheme;
 
         public MainWindow()
         {
@@ -36,6 +38,50 @@ namespace TaskTimerWidget
             InitializeWindow();
             InitializeViewModel();
             SubscribeToWindowEvents();
+        }
+
+        private void MainGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            _isDarkTheme = MainGrid.ActualTheme == ElementTheme.Dark;
+            ApplyTheme();
+        }
+
+        private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isDarkTheme = !_isDarkTheme;
+            ApplyTheme();
+        }
+
+        private void ApplyTheme()
+        {
+            var surface = _isDarkTheme ? new Color { A = 255, R = 0x1C, G = 0x1B, B = 0x1A } : new Color { A = 255, R = 0xFF, G = 0xF8, B = 0xF5 };
+            var card = _isDarkTheme ? new Color { A = 255, R = 0x26, G = 0x22, B = 0x20 } : new Color { A = 255, R = 0xF5, G = 0xED, B = 0xE9 };
+            var onSurface = _isDarkTheme ? Colors.White : new Color { A = 255, R = 0x2B, G = 0x22, B = 0x1F };
+            var secondary = _isDarkTheme ? new Color { A = 255, R = 0xD5, G = 0xC2, B = 0xBA } : new Color { A = 255, R = 0x6F, G = 0x5A, B = 0x52 };
+            var primary = _isDarkTheme ? new Color { A = 255, R = 0xFF, G = 0xB7, B = 0x7A } : new Color { A = 255, R = 0x8B, G = 0x4A, B = 0x00 };
+            var primaryContainer = _isDarkTheme ? new Color { A = 255, R = 0x72, G = 0x38, B = 0x00 } : new Color { A = 255, R = 0xFF, G = 0xDB, B = 0xBF };
+
+            MainGrid.RequestedTheme = _isDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
+            MainGrid.Background = new SolidColorBrush(surface);
+            TitleBarGrid.Background = new SolidColorBrush(surface);
+            DetailPanel.Background = new SolidColorBrush(surface);
+            AddTaskButton.Background = new SolidColorBrush(primary);
+            AddTaskButton.Foreground = new SolidColorBrush(_isDarkTheme ? Colors.Black : Colors.White);
+            HelpButton.Background = new SolidColorBrush(card);
+            HelpButton.Foreground = new SolidColorBrush(onSurface);
+            ThemeToggleButton.Background = new SolidColorBrush(card);
+            ThemeToggleButton.Foreground = new SolidColorBrush(onSurface);
+            ThemeToggleIcon.Text = _isDarkTheme ? "☀" : "☾";
+            ThemeToggleButton.SetValue(AutomationProperties.NameProperty, _isDarkTheme ? "Switch to light theme" : "Switch to dark theme");
+            StatusBar.Foreground = new SolidColorBrush(secondary);
+            foreach (var item in TasksItemsControl.Items)
+            {
+                if (TasksItemsControl.ContainerFromItem(item) is FrameworkElement container &&
+                    VisualTreeHelper.GetChild(container, 0) is Border border && item is TaskViewModel task)
+                {
+                    border.Background = new SolidColorBrush(task.IsActive ? primaryContainer : card);
+                }
+            }
         }
 
         /// <summary>
