@@ -211,7 +211,8 @@
                                             Tapped="TaskDetails_Tapped"
                                             Margin="6,0,0,0"
                                             VerticalAlignment="Center"
-                                            HorizontalAlignment="Center" />
+                                            HorizontalAlignment="Center"
+                                            Foreground="{Binding IsActive, Converter={StaticResource RunningTextColorConverter}}" />
                                     </Grid>
                                 </Grid>
                             </Border>
