@@ -36,7 +36,9 @@ namespace TaskTimerWidget.Helpers
         {
             if (value is bool isActive && isActive)
             {
-                return new SolidColorBrush(Microsoft.UI.Colors.White);
+                return new SolidColorBrush(IsDarkTheme
+                    ? Microsoft.UI.Colors.White
+                    : new Color { A = 255, R = 0x44, G = 0x21, B = 0x00 });
             }
             return new SolidColorBrush(IsDarkTheme
                 ? new Color { A = 255, R = 0xD5, G = 0xC2, B = 0xBA }
