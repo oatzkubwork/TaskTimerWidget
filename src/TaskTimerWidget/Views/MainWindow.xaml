@@ -155,7 +155,7 @@
                                             Grid.Column="0"
                                             Text="{Binding Name}"
                                             FontSize="15"
-                                            FontWeight="Normal"
+                                            FontWeight="Bold"
                                             Foreground="{Binding IsActive, Converter={StaticResource RunningTextColorConverter}}"
                                             TextWrapping="Wrap"
                                             MaxLines="3"
@@ -190,25 +190,28 @@
                                             FontSize="17"
                                             FontWeight="Normal"
                                             Foreground="{Binding IsActive, Converter={StaticResource RunningTextColorConverter}}"
-                                            FontFamily="ms-appx:///Assets/Fonts/TrebuchetMS.ttf#Trebuchet MS" />
+                                            FontFamily="ms-appx:///Assets/Fonts/Roboto-Medium.ttf#Roboto"
+                                            VerticalAlignment="Center" />
 
                                         <!-- Percentage Display -->
                                         <TextBlock
                                             Grid.Column="1"
                                             Text="{Binding TimePercentage}"
-                            FontSize="12"
+                                            FontSize="12"
                                             FontWeight="Normal"
                                             Foreground="#AFAFAF"
-                                            VerticalAlignment="Bottom" />
+                                            VerticalAlignment="Center" />
 
                                         <Button
                                             Grid.Column="2"
                                             Content="Details"
-                                            Width="58"
+                                            Width="52"
                                             Height="24"
                                             Padding="2"
                                             Tapped="TaskDetails_Tapped"
-                                            Margin="8,0,0,0" />
+                                            Margin="6,0,0,0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center" />
                                     </Grid>
                                 </Grid>
                             </Border>
