@@ -86,7 +86,9 @@ namespace TaskTimerWidget
                     VisualTreeHelper.GetChild(container, 0) is Border border && item is TaskViewModel task)
                 {
                     border.Background = new SolidColorBrush(task.IsActive ? _themeActiveColor : _themeCardColor);
-                    var textColor = task.IsActive ? Colors.White : onSurface;
+                    var textColor = task.IsActive
+                        ? (_isDarkTheme ? Colors.White : new Color { A = 255, R = 0x44, G = 0x21, B = 0x00 })
+                        : onSurface;
                     var secondaryColor = _isDarkTheme ? new Color { A = 255, R = 0xD5, G = 0xC2, B = 0xBA } : new Color { A = 255, R = 0x6F, G = 0x5A, B = 0x52 };
                     foreach (var textBlock in FindDescendants<TextBlock>(container))
                     {
