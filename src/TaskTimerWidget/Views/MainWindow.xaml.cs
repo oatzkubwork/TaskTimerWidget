@@ -781,6 +781,13 @@ namespace TaskTimerWidget
                 ShowTaskDetails(task);
         }
 
+        private void TaskDetails_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            if (sender is Button button && button.DataContext is TaskViewModel task)
+                ShowTaskDetails(task);
+        }
+
         private void ShowTaskDetails(TaskViewModel task)
         {
             TaskScrollView.Visibility = Visibility.Collapsed;
