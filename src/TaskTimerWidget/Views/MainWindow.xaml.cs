@@ -28,7 +28,7 @@ namespace TaskTimerWidget
         private bool _isMouseOver = false;
         private bool _isWindowActive = false;
         private bool _isTitleBarTransitioning = false;
-        private const int NORMAL_HEIGHT = 489;
+        private const int NORMAL_HEIGHT = 510;
         private const int TITLEBAR_HEIGHT = 32;
         private bool _isDarkTheme;
 
@@ -95,7 +95,7 @@ namespace TaskTimerWidget
                 if (_appWindow != null)
                 {
                     // Set window size for widget appearance
-                    _appWindow.Resize(new SizeInt32(225, 489));
+                    _appWindow.Resize(new SizeInt32(245, 510));
                     Log.Information("MainWindow resized to 220x500");
 
                     // Set window to always-on-top (widget behavior)
@@ -647,7 +647,7 @@ namespace TaskTimerWidget
                     $"TaskMargin: {taskMargin}, Calculated: {compactHeight}");
 
                 // Switch to compact mode with calculated height
-                _appWindow?.Resize(new SizeInt32(225, compactHeight));
+                _appWindow?.Resize(new SizeInt32(245, compactHeight));
 
                 CompactModeButton.Content = "◱";
                 Log.Information($"Switched to compact mode (height: {compactHeight}px)");
@@ -665,7 +665,7 @@ namespace TaskTimerWidget
                 }
 
                 // Switch back to normal mode
-                _appWindow?.Resize(new SizeInt32(225, NORMAL_HEIGHT));
+                _appWindow?.Resize(new SizeInt32(245, NORMAL_HEIGHT));
 
                 // Restore normal padding and alignment
                 if (TaskScrollView != null)
@@ -886,22 +886,7 @@ namespace TaskTimerWidget
         /// </summary>
         private void TaskItem_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (sender is Border border && border.Tag is TaskViewModel taskVm)
-            {
-                // Hover: Lighter tone (active=lighter gold, inactive=lighter gray)
-                Color hoverColor;
-                if (taskVm.IsActive)
-                {
-                    // Lighter gold for active tasks (#FFD700 -> lighter)
-                    hoverColor = new Color { A = 255, R = 0xCC, G = 0x79, B = 0x3B };
-                }
-                else
-                {
-                    // Slightly lighter dark gray (#3A3A3A) for inactive tasks
-                    hoverColor = new Color { A = 255, R = 0x3A, G = 0x3A, B = 0x3A };
-                }
-                border.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(hoverColor);
-            }
+            // Keep the card color stable while the pointer passes over it.
         }
 
         /// <summary>
@@ -909,12 +894,7 @@ namespace TaskTimerWidget
         /// </summary>
         private void TaskItem_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (sender is Border border && border.Tag is TaskViewModel taskVm)
-            {
-                // Restore: Active = Gold, Inactive = Dark Gray (#2A2A2A)
-                var color = taskVm.IsActive ? new Color { A = 255, R = 0xB8, G = 0x62, B = 0x2A } : new Color { A = 255, R = 0x25, G = 0x25, B = 0x25 };
-                border.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(color);
-            }
+            // Card colors are applied only by the task state/theme renderer.
         }
 
         /// <summary>
